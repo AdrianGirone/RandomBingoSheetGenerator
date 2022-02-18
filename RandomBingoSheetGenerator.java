@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -15,10 +18,30 @@ public class RandomBingoSheetGenerator {
 
   }
 
+  public static void LoadToCsv() throws IOException {
+    File csvFile = new File("bingoBoard.csv");
+    FileWriter fileWriter = new FileWriter(csvFile);
+
+    for (String[] data : bingoBoard) {
+      StringBuilder line = new StringBuilder();
+      for (int i = 0; i < data.length; i++) {
+        line.append("\"");
+        line.append(data[i].replaceAll("\"","\"\""));
+        line.append("\"");
+        if (i != data.length - 1) {
+          line.append(',');
+        }
+      }
+      line.append("\n");
+      fileWriter.write(line.toString());
+    }
+    fileWriter.close();
+  }
+
   public static void GenerateBingoBoard(){
     for (int i = 0; i < bingoBoard.length; i++){
       for (int j = 0; j < bingoBoard[i].length; j++){
-        if (bingoBoard[i][j] != null){
+        if (bingoBoard[i][j] == null){
           String bingoOption = GenerateNewRandomOption();
           while (CheckVertical(i,bingoOption) || CheckHorizontal(j, bingoOption)){
             bingoOption = GenerateNewRandomOption();
