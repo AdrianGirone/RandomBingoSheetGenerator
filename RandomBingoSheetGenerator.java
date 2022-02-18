@@ -2,18 +2,15 @@ import java.io.*;
 import java.util.*;
 
 public class RandomBingoSheetGenerator {
-  static Random randGen = new Random(100);
+  static Random randGen = new Random(101);
   static String[][] bingoBoard = new String[5][5];
-  final static String[] bingoOptions = new String[] {"Has taken CS 200", "Has Programmed in Python",
-      "Is wearing the same color top as you", "Plans to declare a Comp Sci Major",
-      "Plays a musical instrument", "Lives in the dorms", "Has used the CSLC for tutoring",
-      "Is left-handed", "Has played a team sport", "Has one or more pets", "Took WES-CS for CS 200",
-      "Can speak at least two languages", "Has ridden a horse", "Did not take WES-CS for CS 200",
-      "Has lived outside of Wisconsin", "Plans to declare a Comp Sci Certificate",
-      "Rode the bus to campus today", "Has participated in a Hackathon", "Lives off campus"};
-  //static List<String> bingoOptions;
+  static String[] bingoOptions;
 
-
+  /**
+   * Main method
+   *
+   * @param args input arguments if any
+   */
   public static void main(String[] args){
     StartGeneratingBingoBoard();
   }
@@ -23,25 +20,19 @@ public class RandomBingoSheetGenerator {
    *
    * @return "complete" to indicate a bingo board has been made to .csv file
    */
-  public static String StartGeneratingBingoBoard(){
-
-    /*
+  public static void StartGeneratingBingoBoard(){
     try{
       File file = new File("BingoOptions.csv");
-      bingoOptions = LoadCsvToArraylist(file);
+      bingoOptions = LoadCsvToArraylist(file).toArray(new String[0]);
     }catch (IOException e1){
       e1.printStackTrace();
     }
-
-     */
-
     GenerateBingoBoard();
     try{
       SaveToCsv();
     }catch (IOException e1){
       e1.printStackTrace();
     }
-    return "complete";
   }
 
   /**
@@ -50,7 +41,6 @@ public class RandomBingoSheetGenerator {
    * @param file file for reference
    * @return arraylist containing the .csv files
    */
-  /*
   public static List<String> LoadCsvToArraylist(File file) throws IOException {
     List<String> records = new ArrayList<>();
     try (BufferedReader br = new BufferedReader(new FileReader("BingoOptions.csv"))) {
@@ -61,8 +51,6 @@ public class RandomBingoSheetGenerator {
     }
     return records;
   }
-
-   */
 
   /**
    * Save the BingoBoard array to .csv file
@@ -107,14 +95,20 @@ public class RandomBingoSheetGenerator {
     }
   }
 
+  /**
+   * Generates new random number and inputs that as index in bingoOptions Arraylist
+   *
+   * @return random bingo option
+   */
   public static String GenerateNewRandomOption(){
-    /*
-    int x = randGen.nextInt(bingoOptions.size());
-    return bingoOptions.get(x);
-
-     */
     int x = randGen.nextInt(bingoOptions.length);
     return bingoOptions[x];
+
+    /*
+    int x = randGen.nextInt(bingoOptions.length);
+    return bingoOptions[x];
+
+     */
   }
 
   /**
