@@ -2,9 +2,9 @@ import java.io.*;
 import java.util.*;
 
 public class RandomBingoSheetGenerator {
-  static Random randGen = new Random(101);
+  static Random randGen = new Random(100);
   static String[][] bingoBoard = new String[5][5];
-  static String[] bingoOptions;
+  static ArrayList<String> bingoOptions;
 
   /**
    * Main method
@@ -17,13 +17,11 @@ public class RandomBingoSheetGenerator {
 
   /**
    * Runs the program in the proper order
-   *
-   * @return "complete" to indicate a bingo board has been made to .csv file
    */
   public static void StartGeneratingBingoBoard(){
     try{
       File file = new File("BingoOptions.csv");
-      bingoOptions = LoadCsvToArraylist(file).toArray(new String[0]);
+      bingoOptions = (ArrayList<String>) LoadCsvToArraylist(file);
     }catch (IOException e1){
       e1.printStackTrace();
     }
@@ -40,6 +38,7 @@ public class RandomBingoSheetGenerator {
    *
    * @param file file for reference
    * @return arraylist containing the .csv files
+   * @throws IOException if file does not exist or improper data format
    */
   public static List<String> LoadCsvToArraylist(File file) throws IOException {
     List<String> records = new ArrayList<>();
@@ -55,7 +54,7 @@ public class RandomBingoSheetGenerator {
   /**
    * Save the BingoBoard array to .csv file
    *
-   * @throws IOException
+   * @throws IOException if file does not exist or improper data format
    */
   public static void SaveToCsv() throws IOException {
     FileWriter fileWriter = null;
@@ -101,8 +100,8 @@ public class RandomBingoSheetGenerator {
    * @return random bingo option
    */
   public static String GenerateNewRandomOption(){
-    int x = randGen.nextInt(bingoOptions.length);
-    return bingoOptions[x];
+    int x = randGen.nextInt(bingoOptions.size());
+    return bingoOptions.get(x);
 
     /*
     int x = randGen.nextInt(bingoOptions.length);
